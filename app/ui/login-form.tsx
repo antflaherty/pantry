@@ -15,7 +15,7 @@ export default function LoginForm() {
         <div className="w-full">
           <div>
             <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+              className="mb-3 mt-5 block text-xs font-medium"
               htmlFor="email"
             >
               Email
@@ -33,7 +33,7 @@ export default function LoginForm() {
           </div>
           <div className="mt-4">
             <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+              className="mb-3 mt-5 block text-xs font-medium"
               htmlFor="password"
             >
               Password
@@ -51,9 +51,14 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <button className="mt-4 w-full" aria-disabled={isPending}>
-          Log in
-        </button>
+        <div className="mt-4 w-full flex justify-center">
+          <button
+            className="flex mt-4 bg-primary h-10 items-center justify-center rounded-lg px-6 text-sm"
+            aria-disabled={isPending}
+          >
+            Log in
+          </button>
+        </div>
         <div className="flex h-8 items-end space-x-1">
           {errorMessage && (
             <>
