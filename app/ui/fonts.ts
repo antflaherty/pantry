@@ -1,6 +1,5 @@
-import {  Cal_Sans } from "next/font/google";
+import localFont from "next/font/local";
 
-export const cal_sans = Cal_Sans({
-  subsets: ["latin"],
-  weight: ["400"],
+export const cal_sans = localFont({
+  src: "./CalSans-Regular.ttf",
 });
