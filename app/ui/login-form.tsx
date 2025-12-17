@@ -53,7 +53,7 @@ export default function LoginForm() {
         </div>
         <div className="mt-4 w-full flex justify-center">
           <button
-            className="flex mt-4 bg-primary h-10 items-center justify-center rounded-lg px-6 text-sm"
+            className="flex mt-4 bg-primary h-10 items-center justify-center rounded-lg px-6 text-sm transition-all hover:opacity-80 active:scale-95"
             aria-disabled={isPending}
           >
             Log in
