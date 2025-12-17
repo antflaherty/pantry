@@ -12,7 +12,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cal_sans.className}>
         <header className="flex items-start justify-between">
-          <p className="text-8xl">pantry</p>
+          <p className="text-6xl">pantry</p>
           <button
             onClick={async () => {
               "use server";
