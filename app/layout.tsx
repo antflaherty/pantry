@@ -1,6 +1,8 @@
 import "./globals.css";
 import { cal_sans } from "@/app/ui/fonts";
 
+import { signOut } from "@/auth";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -9,8 +11,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cal_sans.className}>
-        <header>
-          <p className="text-9xl">pantry</p>
+        <header className="flex items-start justify-between">
+          <p className="text-8xl">pantry</p>
+          <button
+            onClick={async () => {
+              "use server";
+              await signOut({ redirectTo: "/login" });
+            }}
+          >
+            sign out
+          </button>
         </header>
         <main>{children}</main>
       </body>
