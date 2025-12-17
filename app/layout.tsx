@@ -9,8 +9,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cal_sans.className}>
-        <h1 className="text-9xl">pantry</h1>
-        {children}
+        <header>
+          <p className="text-9xl">pantry</p>
+        </header>
+        <main>{children}</main>
       </body>
     </html>
   );
