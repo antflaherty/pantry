@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import { cal_sans } from "@/app/ui/fonts";
 
 export default function RootLayout({
   children,
@@ -8,8 +8,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
+      <body className={cal_sans.className}>
+        <header>
+          <p className="text-9xl">pantry</p>
+        </header>
+        <main>{children}</main>
       </body>
     </html>
   );

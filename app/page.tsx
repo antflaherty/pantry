@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div>
-      pantry (under construction)
+      (under construction)
     </div>
   );
 }
