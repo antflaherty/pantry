@@ -97,9 +97,13 @@ export default function SignupForm() {
                 minLength={6}
                 defaultValue={state?.inputs?.confirmPassword}
                 onChange={({ target }) => handlePasswordChange(target)}
+                aria-describedby="password-error"
+                aria-invalid={!isPasswordsMatch}
               />
             </div>
             <p
+              id="password-error"
+              aria-live="polite"
               className={clsx("text-sm text-red-500", {
                 invisible: isPasswordsMatch,
               })}
