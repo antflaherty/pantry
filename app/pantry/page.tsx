@@ -1,5 +1,9 @@
 import PantryList from "../ui/pantry/pantry-list";
 
 export default async function Page() {
-  return <PantryList></PantryList>;
+  return (
+    <div className="my-10 max-w-md mx-auto w-full">
+      <PantryList></PantryList>
+    </div>
+  );
 }
