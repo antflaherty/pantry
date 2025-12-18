@@ -4,12 +4,14 @@
   --background: #fdf5e6;
   --foreground: #2d463e;
   --primary: #daa520;
+  --link: #428d75;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-link: var(--link);
 }
 
 body {
