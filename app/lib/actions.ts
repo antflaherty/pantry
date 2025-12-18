@@ -1,10 +1,10 @@
 "use server";
-
-import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import bcrypt from "bcrypt";
-import { Collection, MongoClient } from "mongodb";
 import { z } from "zod";
+
+import { signIn } from "@/auth";
+import { getUsersCollection } from "@/app/lib/database";
 
 export async function authenticate(
   _prevState: string | undefined,
@@ -60,17 +60,14 @@ export async function signUp(
     return { ...validationError, inputs };
   }
 
-  const client = new MongoClient(process.env.MONGODB_URI!);
-  const usersCollection = client.db("pantryapp").collection("users");
-
-  if (await userExists(usersCollection, inputs.email)) {
+  if (await userExists(inputs.email)) {
     return {
       message: "User already exists.",
       inputs,
     };
   }
 
-  await createUser(usersCollection, inputs.email, inputs.password);
+  await createUser(inputs.email, inputs.password);
 
   await signIn("credentials", {
     email: inputs.email,
@@ -100,16 +97,12 @@ function validateCredentials(inputs: {
   return null;
 }
 
-async function userExists(usersCollection: Collection, email: string) {
-  const user = await usersCollection.findOne({ email });
+async function userExists(email: string) {
+  const user = await getUsersCollection().findOne({ email });
   return !!user;
 }
 
-async function createUser(
-  usersCollection: Collection,
-  email: string,
-  password: string
-) {
+async function createUser(email: string, password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
-  await usersCollection.insertOne({ email, password: hashedPassword });
+  await getUsersCollection().insertOne({ email, password: hashedPassword });
 }
