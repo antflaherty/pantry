@@ -18,7 +18,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium"
               htmlFor="email"
             >
-              Email
+              email
             </label>
             <div className="relative">
               <input
@@ -26,7 +26,7 @@ export default function LoginForm() {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="Enter your email address"
+                placeholder="enter your email address"
                 required
               />
             </div>
@@ -36,7 +36,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium"
               htmlFor="password"
             >
-              Password
+              password
             </label>
             <div className="relative">
               <input
@@ -44,7 +44,7 @@ export default function LoginForm() {
                 id="password"
                 type="password"
                 name="password"
-                placeholder="Enter password"
+                placeholder="enter password"
                 required
                 minLength={6}
               />
