@@ -1,10 +1,37 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState, useActionState } from "react";
 import { signUp } from "@/app/lib/actions";
 
 export default function SignupForm() {
   const [state, formAction, isPending] = useActionState(signUp, undefined);
+
+  const [passwords, setPasswords] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [isPasswordsMatch, setIsPasswordsMatch] = useState(true);
+
+  function handlePasswordChange(target: HTMLInputElement) {
+    const isPassword = target.id === "password";
+
+    const newPasswords = isPassword
+      ? { ...passwords, password: target.value }
+      : { ...passwords, confirmPassword: target.value };
+
+    setPasswords(newPasswords);
+
+    if (
+      newPasswords.password?.length > 0 &&
+      newPasswords.confirmPassword.length > 0 &&
+      newPasswords.password !== newPasswords.confirmPassword
+    ) {
+      setIsPasswordsMatch(false);
+    } else {
+      setIsPasswordsMatch(true);
+    }
+  }
 
   return (
     <form action={formAction}>
@@ -47,6 +74,7 @@ export default function SignupForm() {
                 required
                 minLength={6}
                 defaultValue={state?.inputs?.password}
+                onChange={({ target }) => handlePasswordChange(target)}
               />
             </div>
           </div>
@@ -67,8 +95,12 @@ export default function SignupForm() {
                 required
                 minLength={6}
                 defaultValue={state?.inputs?.confirmPassword}
+                onChange={({ target }) => handlePasswordChange(target)}
               />
             </div>
+            {!isPasswordsMatch && (
+              <p className="text-sm text-red-500">passwords don&apos;t match</p>
+            )}
           </div>
         </div>
         <div className="mt-4 w-full flex justify-center">
