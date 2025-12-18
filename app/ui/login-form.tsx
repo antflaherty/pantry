@@ -11,7 +11,7 @@ export default function LoginForm() {
   return (
     <form action={formAction}>
       <div className="flex-1 px-6 pb-4 pt-8">
-        <h1 className={`mb-3 text-2xl`}>log in</h1>
+        <h1 className={`mb-3 text-2xl`}>login</h1>
         <div className="w-full">
           <div>
             <label
@@ -56,7 +56,7 @@ export default function LoginForm() {
             className="flex mt-4 bg-primary h-10 items-center justify-center rounded-lg px-6 text-sm transition-all hover:opacity-80 active:scale-95"
             aria-disabled={isPending}
           >
-            Log in
+            log in
           </button>
         </div>
         <div className="flex h-8 items-end space-x-1">
