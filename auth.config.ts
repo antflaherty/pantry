@@ -8,6 +8,7 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnLogin = nextUrl.pathname.startsWith("/login");
+      const isOnSignup = nextUrl.pathname.startsWith("/signup");
 
       if (isLoggedIn) {
         if (isOnLogin) {
@@ -16,7 +17,7 @@ export const authConfig = {
         return true;
       }
 
-      if (isOnLogin) {
+      if (isOnLogin || isOnSignup) {
         return true;
       }
 
