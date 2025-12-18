@@ -3,3 +3,9 @@ export type User = {
   email: string;
   password: string;
 };
+
+export type Ingredient = {
+  name: string;
+  quantity: number;
+  units: string;
+};
