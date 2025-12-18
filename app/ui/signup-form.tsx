@@ -2,6 +2,7 @@
 
 import { useState, useActionState } from "react";
 import { signUp } from "@/app/lib/actions";
+import clsx from "clsx";
 
 export default function SignupForm() {
   const [state, formAction, isPending] = useActionState(signUp, undefined);
@@ -98,9 +99,13 @@ export default function SignupForm() {
                 onChange={({ target }) => handlePasswordChange(target)}
               />
             </div>
-            {!isPasswordsMatch && (
-              <p className="text-sm text-red-500">passwords don&apos;t match</p>
-            )}
+            <p
+              className={clsx("text-sm text-red-500", {
+                invisible: isPasswordsMatch,
+              })}
+            >
+              passwords don&apos;t match
+            </p>
           </div>
         </div>
         <div className="mt-4 w-full flex justify-center">
