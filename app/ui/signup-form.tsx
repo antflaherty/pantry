@@ -1,11 +1,16 @@
 "use client";
 
+import { useActionState } from "react";
+import { signUp } from "@/app/lib/actions";
+
 export default function SignupForm() {
-  const isPending = false;
-  const errorMessage = null;
+  const [errorMessage, formAction, isPending] = useActionState(
+    signUp,
+    undefined
+  );
 
   return (
-    <form>
+    <form action={formAction}>
       <div className="flex-1 px-6 pb-4 pt-8">
         <h1 className={`mb-3 text-2xl`}>sign up</h1>
         <div className="w-full">
@@ -82,7 +87,6 @@ export default function SignupForm() {
           )}
         </div>
       </div>
-      <input type="hidden" name="redirectTo" value="/pantry" />
     </form>
   );
 }
