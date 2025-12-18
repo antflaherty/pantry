@@ -18,6 +18,7 @@ export default function RootLayout({
               "use server";
               await signOut({ redirectTo: "/login" });
             }}
+            className="text-sm text-link hover:underline"
           >
             sign out
           </button>
