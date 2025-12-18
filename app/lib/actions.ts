@@ -5,6 +5,16 @@ import { z } from "zod";
 
 import { signIn } from "@/auth";
 import { getUsersCollection } from "@/app/lib/database";
+import { Ingredient } from "@/app/lib/definitions";
+
+export async function getPantryForUser(email: string): Promise<Ingredient[]> {
+  const user = await getUsersCollection().findOne({ email });
+
+  if (!user) {
+    throw new Error("user not found");
+  }
+  return user.ingredients;
+}
 
 export async function authenticate(
   _prevState: string | undefined,
