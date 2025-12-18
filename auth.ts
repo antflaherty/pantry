@@ -1,17 +1,18 @@
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 import Credentials from "next-auth/providers/credentials";
-import type { User } from "@/app/lib/definitions";
 import bcrypt from "bcrypt";
-import { MongoClient } from "mongodb";
 import { z } from "zod";
+
+import type { User } from "@/app/lib/definitions";
+import { getUsersCollection } from "./app/lib/database";
 
 async function getUser(email: string): Promise<User | undefined> {
   try {
-    const client = new MongoClient(process.env.MONGODB_URI!);
-    const users = client.db("pantryapp").collection("users");
     const query = { email };
-    const user = (await users.findOne(query)) as unknown as User | undefined;
+    const user = (await getUsersCollection().findOne(query)) as unknown as
+      | User
+      | undefined;
     return user;
   } catch (error) {
     console.error("Failed to fetch user:", error);
