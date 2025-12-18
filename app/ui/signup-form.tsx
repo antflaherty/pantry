@@ -22,7 +22,7 @@ export default function SignupForm() {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="Enter your email address"
+                placeholder="enter your email address"
                 required
               />
             </div>
