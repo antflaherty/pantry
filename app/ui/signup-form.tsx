@@ -4,10 +4,7 @@ import { useActionState } from "react";
 import { signUp } from "@/app/lib/actions";
 
 export default function SignupForm() {
-  const [errorMessage, formAction, isPending] = useActionState(
-    signUp,
-    undefined
-  );
+  const [state, formAction, isPending] = useActionState(signUp, undefined);
 
   return (
     <form action={formAction}>
@@ -29,6 +26,7 @@ export default function SignupForm() {
                 name="email"
                 placeholder="enter your email address"
                 required
+                defaultValue={state?.inputs?.email}
               />
             </div>
           </div>
@@ -48,6 +46,7 @@ export default function SignupForm() {
                 placeholder="enter password"
                 required
                 minLength={6}
+                defaultValue={state?.inputs?.password}
               />
             </div>
           </div>
@@ -67,6 +66,7 @@ export default function SignupForm() {
                 placeholder="confirm password"
                 required
                 minLength={6}
+                defaultValue={state?.inputs?.confirmPassword}
               />
             </div>
           </div>
@@ -80,9 +80,9 @@ export default function SignupForm() {
           </button>
         </div>
         <div className="flex h-8 items-end space-x-1">
-          {errorMessage && (
+          {state?.message && (
             <>
-              <p className="text-sm text-red-500">{errorMessage}</p>
+              <p className="text-sm text-red-500">{state.message}</p>
             </>
           )}
         </div>

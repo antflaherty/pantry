@@ -26,9 +26,22 @@ export async function authenticate(
 }
 
 export async function signUp(
-  _prevState: string | undefined,
+  _prevState:
+    | {
+        message: string;
+        inputs: {
+          email: string;
+          password: string;
+          confirmPassword: string;
+        };
+      }
+    | undefined,
   formData: FormData
 ) {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirm-password") as string;
+
   const parsedCredentials = z
     .object({
       email: z.string().email(),
@@ -40,32 +53,46 @@ export async function signUp(
       path: ["confirmPassword"],
     })
     .safeParse({
-      email: formData.get("email"),
-      password: formData.get("password"),
-      confirmPassword: formData.get("confirm-password"),
+      email,
+      password,
+      confirmPassword,
     });
 
   if (!parsedCredentials.success) {
     const error = parsedCredentials.error.flatten();
     if (error.fieldErrors.confirmPassword) {
-      return "Passwords do not match.";
+      return {
+        message: "Passwords do not match.",
+        inputs: { email, password, confirmPassword },
+      };
     }
-    return "Invalid credentials.";
+    return {
+      message: "Invalid credentials.",
+      inputs: { email, password, confirmPassword },
+    };
   }
 
-  const { email, password } = parsedCredentials.data;
+  const { email: validatedEmail, password: validatedPassword } =
+    parsedCredentials.data;
 
   const client = new MongoClient(process.env.MONGODB_URI!);
   const users = client.db("pantryapp").collection("users");
-  const query = { email };
+  const query = { email: validatedEmail };
   const user = await users.findOne(query);
 
   if (user) {
-    return "User already exists.";
+    return {
+      message: "User already exists.",
+      inputs: { email, password, confirmPassword },
+    };
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  await users.insertOne({ email, password: hashedPassword });
+  const hashedPassword = await bcrypt.hash(validatedPassword, 10);
+  await users.insertOne({ email: validatedEmail, password: hashedPassword });
 
-  await signIn("credentials", { email, password, redirectTo: "/pantry" });
+  await signIn("credentials", {
+    email: validatedEmail,
+    password: validatedPassword,
+    redirectTo: "/pantry",
+  });
 }
