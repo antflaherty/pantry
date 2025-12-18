@@ -30,13 +30,26 @@ export async function signUp(
   formData: FormData
 ) {
   const parsedCredentials = z
-    .object({ email: z.string().email(), password: z.string().min(6) })
+    .object({
+      email: z.string().email(),
+      password: z.string().min(6),
+      confirmPassword: z.string().min(6),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    })
     .safeParse({
       email: formData.get("email"),
       password: formData.get("password"),
+      confirmPassword: formData.get("confirm-password"),
     });
 
   if (!parsedCredentials.success) {
+    const error = parsedCredentials.error.flatten();
+    if (error.fieldErrors.confirmPassword) {
+      return "Passwords do not match.";
+    }
     return "Invalid credentials.";
   }
 
