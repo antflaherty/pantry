@@ -1,11 +1,9 @@
 "use client";
 
-import { IngredientStock } from "@/app/lib/definitions";
-
 export default function PantryItem({
   ingredient,
 }: {
-  ingredient: IngredientStock;
+  ingredient: { name: string; units: string; quantity: number };
 }) {
   return (
     <div className="bg-card p-4 rounded-xl shadow-sm flex justify-between items-center border border-black/5">

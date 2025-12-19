@@ -1,5 +1,5 @@
 import PantryList from "@/app/ui/pantry/pantry-list";
-import { getPantryForUser } from "@/app/lib/actions";
+import { getIngredients, getPantryForUser } from "@/app/lib/actions";
 import { auth } from "@/auth";
 
 export default async function Page() {
@@ -11,11 +11,41 @@ export default async function Page() {
     throw new Error("not logged in?");
   }
 
-  const ingredients = await getPantryForUser(id);
+  const userIngredients = await getPantryForUser(id);
+
+  const ingredientIds = userIngredients.map(
+    (ingredientStock) => ingredientStock.ingredientId
+  );
+
+  const ingredients = await getIngredients(ingredientIds);
+
+  const ingredientsWithQuantity = userIngredients.reduce(
+    (acc, ingredientStock) => {
+      const ingredient = ingredients.find(
+        (ing) => ing._id.toString() === ingredientStock.ingredientId.toString()
+      );
+
+      if (!ingredient) {
+        return acc;
+      }
+
+      return [
+        ...acc,
+        {
+          name: ingredient.name,
+          units: ingredient.units,
+          quantity: ingredientStock.quantity,
+        },
+      ];
+    },
+    [] as unknown as { name: string; units: string; quantity: number }[]
+  );
+
+  console.log(ingredientsWithQuantity);
 
   return (
     <div className="my-10 max-w-md mx-auto w-full px-4">
-      <PantryList ingredients={ingredients}></PantryList>
+      <PantryList ingredients={ingredientsWithQuantity}></PantryList>
     </div>
   );
 }
