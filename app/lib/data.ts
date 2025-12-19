@@ -1,25 +1,33 @@
-import {
-  getIngredientsCollection,
-  getUsersCollection,
-} from "@/app/lib/database";
-import { Ingredient, IngredientStock } from "@/app/lib/definitions";
+import { getUsersCollection } from "@/app/lib/database";
+import { IngredientWithQuantity } from "@/app/lib/definitions";
 import { ObjectId } from "mongodb";
 
-export async function getPantryForUser(id: string): Promise<IngredientStock[]> {
-  const user = await getUsersCollection().findOne({ _id: new ObjectId(id) });
-
-  if (!user) {
-    throw new Error("user not found");
-  }
-  return user.ingredients;
-}
-
-export async function getIngredients(ids: ObjectId[]): Promise<Ingredient[]> {
-  const ingredients = await getIngredientsCollection()
-    .find({
-      _id: { $in: ids },
-    })
+export async function getPantryWithIngredients(
+  userId: string
+): Promise<IngredientWithQuantity[]> {
+  const result = await getUsersCollection()
+    .aggregate([
+      { $match: { _id: new ObjectId(userId) } },
+      { $unwind: "$ingredients" },
+      {
+        $lookup: {
+          from: "ingredients",
+          localField: "ingredients.ingredientId",
+          foreignField: "_id",
+          as: "ingredientDetails",
+        },
+      },
+      { $unwind: "$ingredientDetails" },
+      {
+        $project: {
+          _id: 0, // Don't include MongoDB _id
+          name: "$ingredientDetails.name",
+          units: "$ingredientDetails.units",
+          quantity: "$ingredients.quantity",
+        },
+      },
+    ])
     .toArray();
 
-  return ingredients;
+  return result as IngredientWithQuantity[];
 }
