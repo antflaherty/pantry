@@ -23,6 +23,18 @@ export const authConfig = {
 
       return false;
     },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id; // Add the MongoDB ID to the JWT token
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
   },
   session: {
     strategy: "jwt",
