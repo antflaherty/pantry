@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export type User = {
   _id: string;
   email: string;
@@ -6,7 +8,12 @@ export type User = {
 };
 
 export type IngredientStock = {
-  name: string;
+  ingredientId: ObjectId;
   quantity: number;
+};
+
+export type Ingredient = {
+  _id: ObjectId;
+  name: string;
   units: string;
 };

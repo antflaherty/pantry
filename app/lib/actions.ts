@@ -4,8 +4,11 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 
 import { signIn } from "@/auth";
-import { getUsersCollection } from "@/app/lib/database";
-import { IngredientStock } from "@/app/lib/definitions";
+import {
+  getIngredientsCollection,
+  getUsersCollection,
+} from "@/app/lib/database";
+import { Ingredient, IngredientStock } from "@/app/lib/definitions";
 import { ObjectId } from "mongodb";
 
 export async function getPantryForUser(id: string): Promise<IngredientStock[]> {
@@ -15,6 +18,16 @@ export async function getPantryForUser(id: string): Promise<IngredientStock[]> {
     throw new Error("user not found");
   }
   return user.ingredients;
+}
+
+export async function getIngredients(ids: ObjectId[]): Promise<Ingredient[]> {
+  const ingredients = (await getIngredientsCollection()
+    .find({
+      _id: { $in: ids },
+    })
+    .toArray()) as unknown as Ingredient[];
+
+  return ingredients;
 }
 
 export async function authenticate(
