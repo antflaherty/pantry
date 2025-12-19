@@ -25,8 +25,8 @@ export default async function RootLayout({
           <div className="flex items-center gap-4">
             <Image
               src="./icon.svg"
-              width="50"
-              height="50"
+              width="80"
+              height="80"
               alt="garlic icon"
               className="mt-2"
             ></Image>
