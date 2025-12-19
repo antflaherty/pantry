@@ -4,15 +4,13 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 
-import type { User } from "@/app/lib/definitions";
+import type { UserDocument } from "@/app/lib/definitions";
 import { getUsersCollection } from "./app/lib/database";
 
-async function getUser(email: string): Promise<User | undefined> {
+async function getUser(email: string): Promise<UserDocument | null> {
   try {
     const query = { email };
-    const user = (await getUsersCollection().findOne(query)) as unknown as
-      | User
-      | undefined;
+    const user = await getUsersCollection().findOne(query);
     return user;
   } catch (error) {
     console.error("Failed to fetch user:", error);
@@ -41,7 +39,7 @@ export const { auth, signIn, signOut } = NextAuth({
 
           if (passwordsMatch) {
             return {
-              id: user._id.toString(),
+              id: user._id!.toString(), // _id is always present when fetched from MongoDB
               email: user.email,
             };
           }

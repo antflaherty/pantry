@@ -1,6 +1,7 @@
 import PantryList from "@/app/ui/pantry/pantry-list";
 import { getIngredients, getPantryForUser } from "@/app/lib/actions";
 import { auth } from "@/auth";
+import type { IngredientWithQuantity } from "@/app/lib/definitions";
 
 export default async function Page() {
   const session = await auth();
@@ -19,7 +20,7 @@ export default async function Page() {
 
   const ingredients = await getIngredients(ingredientIds);
 
-  const ingredientsWithQuantity = userIngredients.reduce(
+  const ingredientsWithQuantity = userIngredients.reduce<IngredientWithQuantity[]>(
     (acc, ingredientStock) => {
       const ingredient = ingredients.find(
         (ing) => ing._id.toString() === ingredientStock.ingredientId.toString()
@@ -38,7 +39,7 @@ export default async function Page() {
         },
       ];
     },
-    [] as unknown as { name: string; units: string; quantity: number }[]
+    []
   );
 
   return (

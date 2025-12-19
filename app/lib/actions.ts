@@ -21,11 +21,11 @@ export async function getPantryForUser(id: string): Promise<IngredientStock[]> {
 }
 
 export async function getIngredients(ids: ObjectId[]): Promise<Ingredient[]> {
-  const ingredients = (await getIngredientsCollection()
+  const ingredients = await getIngredientsCollection()
     .find({
       _id: { $in: ids },
     })
-    .toArray()) as unknown as Ingredient[];
+    .toArray();
 
   return ingredients;
 }
@@ -128,5 +128,9 @@ async function userExists(email: string) {
 
 async function createUser(email: string, password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
-  await getUsersCollection().insertOne({ email, password: hashedPassword });
+  await getUsersCollection().insertOne({
+    email,
+    password: hashedPassword,
+    ingredients: [],
+  });
 }
