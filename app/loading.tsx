@@ -1,15 +1,5 @@
-import Image from "next/image";
+import LoadingSpinner from "@/app/ui/loading-spinner";
 
 export default function Loading() {
-  return (
-    <div className="flex h-[50vh] w-full items-center justify-center">
-      <Image
-        src="./icon.svg"
-        width={80}
-        height={80}
-        alt="loading..."
-        className="animate-spin"
-      />
-    </div>
-  );
+  return <LoadingSpinner />;
 }
