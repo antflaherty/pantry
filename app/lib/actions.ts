@@ -6,11 +6,10 @@ import { z } from "zod";
 import { signIn } from "@/auth";
 import { getUsersCollection } from "@/app/lib/database";
 import { IngredientStock } from "@/app/lib/definitions";
+import { ObjectId } from "mongodb";
 
-export async function getPantryForUser(
-  email: string
-): Promise<IngredientStock[]> {
-  const user = await getUsersCollection().findOne({ email });
+export async function getPantryForUser(id: string): Promise<IngredientStock[]> {
+  const user = await getUsersCollection().findOne({ _id: new ObjectId(id) });
 
   if (!user) {
     throw new Error("user not found");

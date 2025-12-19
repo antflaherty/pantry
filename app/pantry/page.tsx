@@ -5,15 +5,13 @@ import { auth } from "@/auth";
 export default async function Page() {
   const session = await auth();
 
-  const email = session?.user?.email;
+  const id = session?.user?.id;
 
-  // do this properly with user id
-
-  if (!email) {
+  if (!id) {
     throw new Error("not logged in?");
   }
 
-  const ingredients = await getPantryForUser(email);
+  const ingredients = await getPantryForUser(id);
 
   return (
     <div className="my-10 max-w-md mx-auto w-full px-4">
