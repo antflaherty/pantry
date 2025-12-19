@@ -1,6 +1,8 @@
 "use client";
 
 import { useActionState } from "react";
+
+import LoadingSpinner from "@/app/ui/loading-spinner";
 import { authenticate } from "@/app/lib/actions";
 
 export default function LoginForm() {
@@ -8,6 +10,11 @@ export default function LoginForm() {
     authenticate,
     undefined
   );
+
+  if (isPending) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <form action={formAction}>
       <div className="flex-1 px-6 pb-4 pt-8">

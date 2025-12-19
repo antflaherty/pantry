@@ -3,6 +3,7 @@
 import { useState, useActionState } from "react";
 import { signUp } from "@/app/lib/actions";
 import clsx from "clsx";
+import LoadingSpinner from "./loading-spinner";
 
 export default function SignupForm() {
   const [state, formAction, isPending] = useActionState(signUp, undefined);
@@ -13,6 +14,10 @@ export default function SignupForm() {
   });
 
   const [isPasswordsMatch, setIsPasswordsMatch] = useState(true);
+
+  if (isPending) {
+    return <LoadingSpinner />;
+  }
 
   function handlePasswordChange(target: HTMLInputElement) {
     const isPassword = target.id === "password";

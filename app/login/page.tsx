@@ -1,5 +1,10 @@
 import LoginForm from "@/app/ui/login-form";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "login",
+};
 
 export default function LoginPage() {
   return (
