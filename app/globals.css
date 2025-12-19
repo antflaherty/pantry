@@ -5,6 +5,7 @@
   --foreground: #2d463e;
   --primary: #daa520;
   --link: #428d75;
+  --card: #fffff8;
 }
 
 @theme inline {
@@ -12,6 +13,7 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-link: var(--link);
+  --color-card: var(--card);
 }
 
 body {

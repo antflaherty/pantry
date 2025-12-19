@@ -6,6 +6,10 @@ export function getUsersCollection(): Collection {
   return getPantryappDb().collection("users");
 }
 
+export function getIngredientsCollection(): Collection {
+  return getPantryappDb().collection("ingredients");
+}
+
 function getPantryappDb(): Db {
   return getClient().db("pantryapp");
 }
