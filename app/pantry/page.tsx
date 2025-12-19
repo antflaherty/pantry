@@ -1,5 +1,5 @@
 import PantryList from "@/app/ui/pantry/pantry-list";
-import { getIngredients, getPantryForUser } from "@/app/lib/actions";
+import { getIngredients, getPantryForUser } from "@/app/lib/data";
 import { auth } from "@/auth";
 import type { IngredientWithQuantity } from "@/app/lib/definitions";
 
