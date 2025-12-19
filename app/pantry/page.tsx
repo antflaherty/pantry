@@ -41,8 +41,6 @@ export default async function Page() {
     [] as unknown as { name: string; units: string; quantity: number }[]
   );
 
-  console.log(ingredientsWithQuantity);
-
   return (
     <div className="my-10 max-w-md mx-auto w-full px-4">
       <PantryList ingredients={ingredientsWithQuantity}></PantryList>
