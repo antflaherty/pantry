@@ -1,13 +1,10 @@
 import { Collection, Db, MongoClient } from "mongodb";
+import type { UserDocument } from "./definitions";
 
 let client: MongoClient;
 
-export function getUsersCollection(): Collection {
-  return getPantryappDb().collection("users");
-}
-
-export function getIngredientsCollection(): Collection {
-  return getPantryappDb().collection("ingredients");
+export function getUsersCollection(): Collection<UserDocument> {
+  return getPantryappDb().collection<UserDocument>("users");
 }
 
 function getPantryappDb(): Db {
