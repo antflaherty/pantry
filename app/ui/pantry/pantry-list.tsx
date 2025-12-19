@@ -1,12 +1,12 @@
 "use client";
 
 import PantryItem from "./pantry-item";
-import { Ingredient } from "@/app/lib/definitions";
+import { IngredientStock } from "@/app/lib/definitions";
 
 export default function PantryList({
   ingredients,
 }: {
-  ingredients: Ingredient[];
+  ingredients: IngredientStock[];
 }) {
   return (
     <div className="flex flex-col gap-4">

@@ -2,10 +2,10 @@ export type User = {
   _id: string;
   email: string;
   password: string;
-  pantry: Ingredient[];
+  pantry: IngredientStock[];
 };
 
-export type Ingredient = {
+export type IngredientStock = {
   name: string;
   quantity: number;
   units: string;

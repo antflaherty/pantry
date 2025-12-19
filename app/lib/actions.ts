@@ -5,9 +5,11 @@ import { z } from "zod";
 
 import { signIn } from "@/auth";
 import { getUsersCollection } from "@/app/lib/database";
-import { Ingredient } from "@/app/lib/definitions";
+import { IngredientStock } from "@/app/lib/definitions";
 
-export async function getPantryForUser(email: string): Promise<Ingredient[]> {
+export async function getPantryForUser(
+  email: string
+): Promise<IngredientStock[]> {
   const user = await getUsersCollection().findOne({ email });
 
   if (!user) {
