@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { Metadata } from "next";
 
 import SignupForm from "@/app/ui/signup-form";
+
+export const metadata: Metadata = {
+  title: "sign up",
+};
 
 export default function SignupPage() {
   return (

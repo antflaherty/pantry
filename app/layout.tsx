@@ -1,7 +1,13 @@
-import "./globals.css";
+import { Metadata } from "next";
+
+import "@/app/globals.css";
 import { cal_sans } from "@/app/ui/fonts";
 
 import { auth, signOut } from "@/auth";
+
+export const metadata: Metadata = {
+  title: { template: "%s | pantry", default: "pantry" },
+};
 
 export default async function RootLayout({
   children,
