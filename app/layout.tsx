@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 
 import "@/app/globals.css";
 import { cal_sans } from "@/app/ui/fonts";
@@ -20,8 +21,17 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={cal_sans.className}>
-        <header className="flex items-start justify-between">
-          <p className="text-6xl">pantry</p>
+        <header className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Image
+              src="./icon.svg"
+              width="50"
+              height="50"
+              alt="garlic icon"
+              className="mt-2"
+            ></Image>
+            <p className="text-6xl">pantry</p>
+          </div>
           {isLoggedIn && (
             <button
               onClick={async () => {
