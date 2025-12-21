@@ -1,10 +1,58 @@
 "use server";
 import { AuthError } from "next-auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 
-import { signIn } from "@/auth";
+import { signIn, auth } from "@/auth";
 import { getUsersCollection } from "@/app/lib/database";
+import { ObjectId } from "mongodb";
+
+const IngredientStockSchema = z.object({
+  ingredientId: z.string(),
+  quantity: z.number(),
+});
+
+export async function addIngredientToPantry(
+  _prevState: string | undefined,
+  formData: FormData
+) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return "not logged in?";
+  }
+
+  const userId = session.user.id;
+
+  const parsedInput = IngredientStockSchema.safeParse({
+    ingredientId: formData.get("ingredientId"),
+    quantity: Number(formData.get("quantity")),
+  });
+
+  if (!parsedInput.success) {
+    return "invalid input";
+  }
+
+  try {
+    await getUsersCollection().updateOne(
+      { _id: new ObjectId(userId) },
+      {
+        $push: {
+          ingredients: {
+            ingredientId: new ObjectId(parsedInput.data.ingredientId),
+            quantity: parsedInput.data.quantity,
+          },
+        },
+      }
+    );
+  } catch (error) {
+    return "failed to add ingredient";
+  }
+
+  revalidatePath("/pantry");
+  redirect("/pantry");
+}
 
 export async function authenticate(
   _prevState: string | undefined,

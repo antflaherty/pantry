@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 
 import { Ingredient } from "@/app/lib/definitions";
+import { addIngredientToPantry } from "@/app/lib/actions";
 
 export default function AddToPantryForm({
   ingredients,
 }: {
   ingredients: Ingredient[];
 }) {
+  const [errorMessage, formAction] = useActionState(
+    addIngredientToPantry,
+    undefined
+  );
   const [selectedIngredient, setSelectedIngredient] = useState<
     Ingredient | undefined
   >(undefined);
@@ -20,7 +25,7 @@ export default function AddToPantryForm({
   }
 
   return (
-    <form>
+    <form action={formAction}>
       <div className="flex-1 px-6 pb-4 pt-8">
         <h1 className={`mb-3 text-2xl`}>ingredient</h1>
         <div className="w-full">
