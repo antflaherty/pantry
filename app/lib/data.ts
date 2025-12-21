@@ -1,5 +1,8 @@
-import { getUsersCollection } from "@/app/lib/database";
-import { IngredientWithQuantity } from "@/app/lib/definitions";
+import {
+  getIngredientsCollection,
+  getUsersCollection,
+} from "@/app/lib/database";
+import { Ingredient, IngredientWithQuantity } from "@/app/lib/definitions";
 import { ObjectId } from "mongodb";
 
 export async function getPantryWithIngredients(
@@ -30,4 +33,16 @@ export async function getPantryWithIngredients(
     .toArray();
 
   return result as IngredientWithQuantity[];
+}
+
+export async function fetchIngredients(): Promise<Ingredient[]> {
+  const result = await getIngredientsCollection().find({}).toArray();
+
+  return result.map((ingredient) => {
+    return {
+      id: ingredient._id.toString(),
+      name: ingredient.name,
+      units: ingredient.units,
+    };
+  }) as Ingredient[];
 }
