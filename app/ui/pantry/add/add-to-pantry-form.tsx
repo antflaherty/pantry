@@ -49,8 +49,10 @@ export default function AddToPantryForm({
               <input
                 className="peer block w-full rounded-md border border-gray-200 bg-white py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="quantity"
-                type="quantity"
+                type="number"
                 name="quantity"
+                min="1"
+                step="1"
                 placeholder="enter quantity"
                 required
                 minLength={6}
