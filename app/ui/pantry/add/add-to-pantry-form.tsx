@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 
+import LoadingSpinner from "@/app/ui/loading-spinner";
 import { Ingredient } from "@/app/lib/definitions";
 import { addIngredientToPantry } from "@/app/lib/actions";
 
@@ -10,7 +11,7 @@ export default function AddToPantryForm({
 }: {
   ingredients: Ingredient[];
 }) {
-  const [errorMessage, formAction] = useActionState(
+  const [errorMessage, formAction, isPending] = useActionState(
     addIngredientToPantry,
     undefined
   );
@@ -22,6 +23,10 @@ export default function AddToPantryForm({
     setSelectedIngredient(
       ingredients.find(({ id }) => selectedIngredientId === id)
     );
+  }
+
+  if (isPending) {
+    return <LoadingSpinner />;
   }
 
   return (
@@ -82,12 +87,21 @@ export default function AddToPantryForm({
           </div>
         </div>
         <div className="mt-4 w-full flex justify-center">
-          <button className="flex mt-4 bg-primary h-10 items-center justify-center rounded-lg px-6 text-sm transition-all hover:opacity-80 active:scale-95">
+          <button
+            className="flex mt-4 bg-primary h-10 items-center justify-center rounded-lg px-6 text-sm transition-all hover:opacity-80 active:scale-95"
+            aria-disabled={isPending}
+          >
             add
           </button>
         </div>
+        <div className="flex h-8 items-end space-x-1">
+          {errorMessage && (
+            <>
+              <p className="text-sm text-red-500">{errorMessage}</p>
+            </>
+          )}
+        </div>
       </div>
-      <input type="hidden" name="redirectTo" value="/pantry" />
     </form>
   );
 }
