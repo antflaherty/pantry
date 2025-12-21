@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Ingredient } from "@/app/lib/definitions";
 
 export default function AddToPantryForm({
@@ -7,6 +9,16 @@ export default function AddToPantryForm({
 }: {
   ingredients: Ingredient[];
 }) {
+  const [selectedIngredient, setSelectedIngredient] = useState<
+    Ingredient | undefined
+  >(undefined);
+
+  function handleIngredientChange(selectedIngredientId: string) {
+    setSelectedIngredient(
+      ingredients.find(({ id }) => selectedIngredientId === id)
+    );
+  }
+
   return (
     <form>
       <div className="flex-1 px-6 pb-4 pt-8">
@@ -26,6 +38,9 @@ export default function AddToPantryForm({
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue=""
                 required
+                onChange={(event) =>
+                  handleIngredientChange(event?.target.value)
+                }
               >
                 <option value="" disabled>
                   choose an ingredient
@@ -45,9 +60,9 @@ export default function AddToPantryForm({
             >
               quantity
             </label>
-            <div className="relative">
+            <div className="relative flex items-center">
               <input
-                className="peer block w-full rounded-md border border-gray-200 bg-white py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block flex-1 rounded-md border border-gray-200 bg-white py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="quantity"
                 type="number"
                 name="quantity"
@@ -57,6 +72,7 @@ export default function AddToPantryForm({
                 required
                 minLength={6}
               />
+              <p className="pl-2">{selectedIngredient?.units}</p>
             </div>
           </div>
         </div>
