@@ -28,7 +28,7 @@ export type IngredientStock = {
 };
 
 export type Ingredient = {
-  _id: ObjectId;
+  id: string;
   name: string;
   units: string;
 };
