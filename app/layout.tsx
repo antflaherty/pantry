@@ -38,7 +38,7 @@ export default async function RootLayout({
                 "use server";
                 await signOut({ redirectTo: "/login" });
               }}
-              className="text-sm text-link hover:underline"
+              className="p-5 text-sm text-link hover:underline"
             >
               sign out
             </button>
