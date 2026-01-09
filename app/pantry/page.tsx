@@ -17,13 +17,13 @@ export default async function Page() {
   const ingredients = await getPantryWithIngredients(id);
 
   return (
-    <>
-      <Link href="/pantry/add/">
-        <PlusIcon className="h-10 bg-primary fill-foreground rounded-lg transition-all hover:opacity-80 active:scale-95" />
-      </Link>
-      <div className="my-10 max-w-md mx-auto w-full px-4">
-        <PantryList ingredients={ingredients}></PantryList>
+    <div className="my-10 max-w-md mx-auto w-full px-4">
+      <div className="flex justify-end mb-4">
+        <Link href="/pantry/add/">
+          <PlusIcon className="h-10 bg-primary fill-foreground rounded-lg transition-all hover:opacity-80 active:scale-95" />
+        </Link>
       </div>
-    </>
+      <PantryList ingredients={ingredients}></PantryList>
+    </div>
   );
 }
